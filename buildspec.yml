@@ -20,4 +20,7 @@ phases:
       - ls -la
 artifacts:
   files:
-    - dist/$APP_NAME/*
+    - '**/*'
+  base-directory:
+    - dist/$APP_NAME*
+  discard-paths: yes
