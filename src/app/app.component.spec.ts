@@ -16,10 +16,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'demo_front_cloud'`, () => {
+  it(`should have as product empty`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('demo_front_cloud');
+    expect(app.products).toEqual([]);
   });
 
   it('should render title', () => {
