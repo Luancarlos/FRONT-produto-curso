@@ -15,6 +15,9 @@ phases:
       - ng build --configuration=production
   post_build:
     commands:
-      - echo build process finished, we should uplload to S3 now
+      - echo INIT POST BUILD
       - cd dist/$APP_NAME
       - ls -la
+artifacts:
+  files:
+    - dist/$APP_NAME/*
