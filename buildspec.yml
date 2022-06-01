@@ -21,6 +21,5 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory:
-    - dist/$APP_NAME*
+  base-directory: dist/$APP_NAME*
   discard-paths: yes
