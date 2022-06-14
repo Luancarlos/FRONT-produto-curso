@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'http://demoback-env.eba-22hskfki.us-east-1.elasticbeanstalk.com/api/'
+  url: 'http://localhost:8080/api/'
 };
 
 /*

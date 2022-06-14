@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ProductService } from './service/product.service';
-import { Product } from './model/product';
+import { ProdutoService } from './service/produto.service';
+import { Produto } from './model/produto';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -9,51 +9,74 @@ import { FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
-  products: Product[] = [];
+  produtos: Produto[] = [];
 
-  productForm = this.fb.group({
-    name: [null, Validators.required],
-    description: [null],
-    price: [null]
+  produtoForm = this.fb.group({
+    id: [],
+    nome: [null, Validators.required],
+    descricao: [null],
+    preco: [null, Validators.required]
   })
 
   constructor(
     private fb: FormBuilder,
-    private service: ProductService) {
-    this.getAllProducts();
+    private service: ProdutoService) {
+    this.buscarProdutos();
   }
 
-  getAllProducts() {
-    this.service.getAll().subscribe(
-      (res) => {
-        this.products = res;
-      },
-      (error) => {
+  buscarProdutos() {
+    this.service.buscarTodos().subscribe(
+     {
+       next: (res) => {
+        this.produtos = res;
+       },
+       error: (error) => {
         console.error(error);
-      }
+       },
+       complete: () => console.log('lista de produtos', this.produtos)
+     }
     )
   }
 
-  createProduct(): Product {
+
+  criarProduto(): Produto {
     return {
-      name: this.productForm.get('name')?.value,
-      description: this.productForm.get('description')?.value,
-      price: this.productForm.get('price')?.value
+      id: this.produtoForm.get('id')?.value,
+      nome: this.produtoForm.get('nome')?.value,
+      descricao: this.produtoForm.get('descricao')?.value,
+      preco: this.produtoForm.get('preco')?.value
     }
   }
 
-  save() {
-    if (this.productForm.valid) {
-      const product = this.createProduct();
-      this.service.save(product).subscribe(
-        (res) => {
-          alert("Product save sucessfull");
-          this.getAllProducts();
-        },
-        (error) => {
-          console.error(error);
+  salvar() {
+    if (this.produtoForm.valid) {
+      const produto = this.criarProduto();
+      this.service.salvar(produto).subscribe(
+        {
+          next: (res) => {
+            this.produtoForm.reset();
+            this.buscarProdutos();
+            alert("Produto salvo com sucesso");
+          },
+          error: (error) => {
+            console.log(error);
+          },
+          complete: () => console.log('produto salvo')
         }
       )
     }
   }
+
+  remover(produto: Produto) {
+    const confirmacao = confirm("Quer realmente excluir esse produto?");
+    if (confirmacao) {
+      this.service.remover(produto.id).subscribe({
+        next: () => {
+          this.buscarProdutos();
+          alert("Produto removido com sucesso");
+        }
+      })
+    }
+  }
+
 }

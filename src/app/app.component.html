@@ -3,19 +3,24 @@
 <div class="container-fluid">
   <div class="card">
     <div class="card-body">
-      <div class="card-title"><h4>Products</h4></div>
-      <form [formGroup]="productForm" (ngSubmit)="save()">
+      <div class="card-title"><h4>Produtos</h4></div>
+      <form [formGroup]="produtoForm" (ngSubmit)="salvar()">
         <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" class="form-control" id="name" formControlName="name">
+          <label for="nome">Nome</label>
+          <input type="text" class="form-control" id="nome" formControlName="nome">
         </div>
         <br />
         <div class="form-group">
-          <label for="description">Description</label>
-          <textarea name="" id="description" formControlName="description" rows="3" class="form-control"></textarea>
+          <label for="preco">Preço</label>
+          <input type="number" class="form-control" id="preco" formControlName="preco">
         </div>
         <br />
-        <button class="btn btn-primary" [disabled]="productForm.invalid">Save</button>
+        <div class="form-group">
+          <label for="descricao">Descrição</label>
+          <textarea nome="" id="descricao" formControlName="descricao" rows="3" class="form-control"></textarea>
+        </div>
+        <br />
+        <button class="btn btn-primary" [disabled]="produtoForm.invalid">Salvar</button>
       </form>
     </div>
   </div>
@@ -26,17 +31,26 @@
 <div class="container-fluid">
   <div class="card">
     <div class="card-body">
-      <div class="card-title"><h4>List Products</h4></div>
+      <div class="card-title"><h4>Lista de produtos</h4></div>
       <table class="table">
         <thead>
-          <th>Name</th>
-          <th>Description</th>
+          <th>Nome</th>
+          <th>Preço</th>
+          <th>Descrição</th>
+          <th>Ação</th>
         </thead>
-        <tr *ngFor="let product of products">
-          <td>{{product.name}}</td>
-          <td>{{product.description}}</td>
+        <tr *ngFor="let produto of produtos">
+          <td>{{produto.nome}}</td>
+          <td>{{produto.preco}}</td>
+          <td>{{produto.descricao}}</td>
+          <td style="width:100px">
+            <div>
+              <button (click)="remover(produto)" class="btn btn-danger btn-sm" type="button">Remover</button>
+            </div>
+          </td>
         </tr>
       </table>
     </div>
   </div>
 </div>
+<br />
